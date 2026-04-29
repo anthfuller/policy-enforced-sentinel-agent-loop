@@ -160,13 +160,17 @@ Before publishing or deploying, ensure the Function App Authentication provider 
 
 ## Quick validation model
 
-Expected parent path:
+**Expected execution path:**
 
-```text
-HTTP request received
-  → Agent Loop runs
-  → Sentinel Health Query tool selected
-  → Call workflow in this logic app succeeded
+Parent workflow trigger: HTTP request or Recurrence schedule  
+→ Parent invokes governed child workflow/tool  
+→ Child workflow HTTP request received  
+→ Correlation ID initialized  
+→ PEP called  
+→ PEP response parsed  
+→ PEP allow condition true  
+→ Fixed Azure Monitor Logs query succeeded  
+→ Success response returned
 ```
 ## Validation evidence
 
