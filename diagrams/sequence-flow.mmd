@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant Caller
+    participant Parent as Parent Agent Loop
+    participant Child as Child Workflow Tool Boundary
+    participant PEP as Azure Function PEP
+    participant Logs as Azure Monitor Logs Connector
+    participant LAW as Log Analytics Workspace
+
+    Caller->>Parent: Request Sentinel health check
+    Parent->>Child: Call workflow in this logic app
+    Child->>PEP: POST fixed tool contract<br/>Managed Identity + Entra ID
+    PEP-->>Child: allow / deny decision
+    alt allow == true
+        Child->>Logs: Run fixed approved query
+        Logs->>LAW: Query SecurityIncident
+        LAW-->>Logs: Query response
+        Logs-->>Child: Results
+        Child-->>Parent: Success response
+        Parent-->>Caller: Response
+    else deny or failure
+        Child-->>Parent: Fail-closed response
+        Parent-->>Caller: Denial / unavailable
+    end
