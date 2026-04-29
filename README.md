@@ -186,9 +186,7 @@ This reference pattern was validated in a private Azure environment using:
 
 No Azure Portal screenshots or real environment identifiers are included in this repository.
 
-Expected child path:
-
-**Child workflow path:**
+### Expected child workflow path
 
 ```text
 HTTP request received
