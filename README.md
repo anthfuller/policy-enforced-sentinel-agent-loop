@@ -188,14 +188,16 @@ No Azure Portal screenshots or real environment identifiers are included in this
 
 Expected child path:
 
+**Child workflow path:**
+
 ```text
 HTTP request received
-  → Correlation ID initialized
-  → PEP called
-  → PEP response parsed
-  → PEP allow condition true
-  → Fixed Azure Monitor Logs query succeeded
-  → Success response returned
+→ Correlation ID initialized
+→ PEP called
+→ PEP response parsed
+→ PEP allow condition true
+→ Fixed Azure Monitor Logs query succeeded
+→ Success response returned
 ```
 
 Expected Function log proof:
