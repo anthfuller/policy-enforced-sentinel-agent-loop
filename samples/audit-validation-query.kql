@@ -1,0 +1,5 @@
+LAQueryLogs
+| where TimeGenerated > ago(60m)
+| where QueryText has "SecurityIncident"
+| project TimeGenerated, AADObjectId, AADClientId, RequestClientApp, ResponseCode, QueryText
+| order by TimeGenerated desc
