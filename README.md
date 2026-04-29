@@ -162,7 +162,7 @@ Before publishing or deploying, ensure the Function App Authentication provider 
 
 **Expected execution path:**
 
-Parent workflow trigger: HTTP request or Recurrence schedule  
+Parent workflow trigger or approved orchestration path  
 → Parent invokes governed child workflow/tool  
 → Child workflow HTTP request received  
 → Correlation ID initialized  
