@@ -162,6 +162,7 @@ Before publishing or deploying, ensure the Function App Authentication provider 
 
 ### Expected execution path:
 
+```text
 Parent workflow trigger or approved orchestration path  
 → Parent invokes governed child workflow/tool  
 → Child workflow HTTP request received  
