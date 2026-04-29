@@ -168,6 +168,19 @@ HTTP request received
   → Sentinel Health Query tool selected
   → Call workflow in this logic app succeeded
 ```
+## Validation evidence
+
+This reference pattern was validated in a private Azure environment using:
+
+- A parent autonomous agent workflow calling a controlled child workflow tool
+- An Azure Function-based Policy Enforcement Point protected by Entra ID / App Service Authentication
+- Managed identity authentication from Logic Apps to the PEP
+- Azure Monitor Logs connector execution using managed identity and RBAC
+- A fixed Sentinel Health Query executed only after PEP approval
+- Fail-closed behavior for denied, malformed, failed, or unauthorized paths
+- Log Analytics audit confirmation of AzureMonitorLogsConnector execution
+
+No Azure Portal screenshots or real environment identifiers are included in this repository.
 
 Expected child path:
 
