@@ -1,0 +1,10 @@
+{
+  "agentName": "SECURITY_AGENT_NAME_PLACEHOLDER",
+  "toolName": "Sentinel Health Query",
+  "operation": "sentinel.health.query",
+  "workspace": "SENTINEL_WORKSPACE_ALIAS_PLACEHOLDER",
+  "queryId": "sentinel_health_query_weekly_v1",
+  "inputs": {},
+  "logicAppRunId": "WORKFLOW_RUN_ID_PLACEHOLDER",
+  "correlationId": "CORRELATION_ID_PLACEHOLDER"
+}
