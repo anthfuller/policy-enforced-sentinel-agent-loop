@@ -1,0 +1,22 @@
+flowchart TD
+    A[Caller or Schedule] --> B[Logic Apps Standard<br/>Parent Agent Loop]
+    B --> C{Should approved tool be called?}
+    C -- No --> D[Return: capability not available]
+    C -- Yes --> E[Tool: Call workflow in this logic app]
+    E --> F[Child Workflow Tool Boundary]
+    F --> G[Call Azure Function-based PEP<br/>Managed Identity + Entra ID]
+    G --> H{PEP allow?}
+    H -- No --> I[Fail Closed<br/>Return Denial]
+    H -- Failed / Timeout / Malformed --> J[Fail Closed<br/>PEP Failure Denial]
+    H -- Yes --> K[Azure Monitor Logs Connector<br/>Managed Identity + RBAC]
+    K --> L[Log Analytics Workspace<br/>Fixed Query Only]
+    L --> M[Return Success to Agent Loop]
+
+    subgraph Private_Network["Private Azure Network Boundary"]
+        B
+        E
+        F
+        G
+        K
+        L
+    end
