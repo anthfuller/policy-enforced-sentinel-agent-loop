@@ -1,0 +1,66 @@
+{
+  "name": "<child-workflow-name>",
+  "type": "Stateful",
+  "description": "Sanitized conceptual child workflow structure. This is not a deployable ARM export.",
+  "trigger": {
+    "type": "Request",
+    "method": "POST"
+  },
+  "actions": [
+    "Initialize CorrelationId",
+    "Call PEP",
+    "Parse PEP Response",
+    {
+      "Condition PEP Allows": {
+        "requires": [
+          "PEP HTTP status code == 200",
+          "allow == true",
+          "toolName == Sentinel Health Query",
+          "operation == sentinel.health.query",
+          "workspace == SENTINEL_WORKSPACE_ALIAS_PLACEHOLDER",
+          "queryId == sentinel_health_query_weekly_v1"
+        ],
+        "trueBranch": [
+          {
+            "Run Sentinel Health Query": {
+              "connector": "Azure Monitor Logs",
+              "operation": "Run query and list results",
+              "authentication": "Managed Identity",
+              "identity": "<logic-app-system-assigned-managed-identity>",
+              "resourceType": "Log Analytics Workspace",
+              "workspace": "<sentinel-log-analytics-workspace-name>",
+              "resourceGroup": "<workspace-resource-group>",
+              "timeRange": "Set in query",
+              "query": "SecurityIncident\n| where TimeGenerated >= ago(24h)\n| project TimeGenerated, IncidentNumber, Title, Severity, Status, Owner, Classification, Description\n| order by TimeGenerated desc\n| take 25"
+            }
+          },
+          "Return Success To Agent Loop"
+        ],
+        "falseBranch": [
+          "Return Denial To Agent Loop"
+        ]
+      }
+    },
+    {
+      "Return PEP Failure Denial To Agent Loop": {
+        "runAfter": {
+          "Condition PEP Allows": [
+            "Failed",
+            "TimedOut",
+            "Skipped"
+          ]
+        }
+      }
+    }
+  ],
+  "securityRequirements": [
+    "No Agent-generated KQL",
+    "No Agent-selected workspace",
+    "No Function keys",
+    "No API keys",
+    "No client secrets",
+    "No shared secrets",
+    "No Log Analytics shared keys",
+    "Managed identity only"
+  ]
+}
