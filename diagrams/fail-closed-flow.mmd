@@ -1,0 +1,12 @@
+flowchart LR
+    A[Child Workflow Starts] --> B[Call PEP]
+    B --> C{PEP HTTP 200?}
+    C -- No --> Z[Fail Closed]
+    C -- Yes --> D{allow == true?}
+    D -- No --> Z
+    D -- Yes --> E{Contract matches?}
+    E -- No --> Z
+    E -- Yes --> F[Run Fixed Sentinel Query]
+    F --> G[Return Success]
+
+    Z --> H[No Sentinel Query Executed]
