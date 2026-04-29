@@ -160,7 +160,7 @@ Before publishing or deploying, ensure the Function App Authentication provider 
 
 ## Quick validation model
 
-# Expected execution path:
+### Expected execution path:
 
 Parent workflow trigger or approved orchestration path  
 → Parent invokes governed child workflow/tool  
