@@ -1,0 +1,50 @@
+{
+  "name": "<parent-agent-workflow-name>",
+  "type": "Stateful / Agent Loop",
+  "description": "Sanitized conceptual parent workflow export. Replace placeholders in your own private environment only.",
+  "trigger": {
+    "type": "Request",
+    "method": "POST",
+    "body_example": {
+      "request": "Run a Sentinel health check."
+    }
+  },
+  "agent": {
+    "name": "SECURITY_AGENT_NAME_PLACEHOLDER",
+    "instructions": [
+      "You are a Microsoft Sentinel security operations agent.",
+      "You do not execute Sentinel actions directly.",
+      "You may only use the approved Sentinel Health Query tool.",
+      "You must not generate KQL.",
+      "You must not choose a workspace.",
+      "You must not choose a queryId.",
+      "You must not invent tools, credentials, URLs, endpoints, workspaces, or actions.",
+      "All execution must go through the provided tool, which calls an external Policy Enforcement Point before any approved action is allowed.",
+      "If the request is outside the available tool capability, say it is not available."
+    ],
+    "tools": [
+      {
+        "toolName": "Sentinel Health Query",
+        "action": "Workflow Operations - Call workflow in this logic app",
+        "workflowName": "<child-workflow-name>",
+        "safeBodyMapping": {
+          "correlationId": "@{workflow().run.name}",
+          "callerWorkflow": "<parent-agent-workflow-name>",
+          "requestReason": "Sentinel health check requested by parent agent."
+        },
+        "doNotPass": [
+          "KQL",
+          "workspace",
+          "resource group",
+          "subscription",
+          "queryId",
+          "endpoint",
+          "token",
+          "secret",
+          "key",
+          "connection string"
+        ]
+      }
+    ]
+  }
+}
