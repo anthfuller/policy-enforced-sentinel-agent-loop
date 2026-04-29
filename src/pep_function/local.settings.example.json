@@ -1,0 +1,16 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "POLICY_VERSION": "sentinel-health-query-policy-v1",
+    "EXPECTED_AGENT_NAME": "Security Tool Health And Telemetry Assurance Agent",
+    "EXPECTED_TOOL_NAME": "Sentinel Health Query",
+    "EXPECTED_OPERATION": "sentinel.health.query",
+    "EXPECTED_WORKSPACE": "SENTINEL_WORKSPACE_ALIAS_PLACEHOLDER",
+    "EXPECTED_QUERY_ID": "sentinel_health_query_weekly_v1",
+    "EXPECTED_TENANT_ID": "TENANT_ID_PLACEHOLDER",
+    "EXPECTED_AUDIENCE": "api://PEP_APP_REGISTRATION_CLIENT_ID_PLACEHOLDER",
+    "ALLOWED_CALLER_APP_ID": "LOGIC_APP_MANAGED_IDENTITY_CLIENT_ID_PLACEHOLDER"
+  }
+}
