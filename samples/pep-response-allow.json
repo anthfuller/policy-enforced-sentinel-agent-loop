@@ -1,0 +1,10 @@
+{
+  "allow": true,
+  "decisionId": "DECISION_ID_PLACEHOLDER",
+  "policyVersion": "sentinel-health-query-policy-v1",
+  "reason": "PEP allow: fixed Sentinel health query is authorized",
+  "toolName": "Sentinel Health Query",
+  "operation": "sentinel.health.query",
+  "workspace": "SENTINEL_WORKSPACE_ALIAS_PLACEHOLDER",
+  "queryId": "sentinel_health_query_weekly_v1"
+}
