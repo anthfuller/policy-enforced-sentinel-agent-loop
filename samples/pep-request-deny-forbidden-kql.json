@@ -1,0 +1,9 @@
+{
+  "agentName": "SECURITY_AGENT_NAME_PLACEHOLDER",
+  "toolName": "Sentinel Health Query",
+  "operation": "sentinel.health.query",
+  "workspace": "SENTINEL_WORKSPACE_ALIAS_PLACEHOLDER",
+  "queryId": "sentinel_health_query_weekly_v1",
+  "inputs": {},
+  "kql": "SecurityIncident | take 10"
+}
