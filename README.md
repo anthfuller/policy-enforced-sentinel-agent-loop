@@ -1,19 +1,29 @@
 # Policy-Enforced Sentinel Agent Loop
 
-A private-by-design reference pattern for governed Microsoft Sentinel automation using an Azure Logic Apps Standard agent loop, a controlled child-workflow tool boundary, and an Azure Function–based Policy Enforcement Point (PEP).
+A private-by-design reference pattern for governed Microsoft Sentinel automation using an Azure Logic Apps Standard Agent Loop, a controlled child-workflow tool boundary, and an Azure Function-based Policy Enforcement Point (PEP).
 
 This repository demonstrates an **architectural security control pattern**. It is **not intended to be deployed directly into production** without independent security review and adaptation to your environment.
+
+## Status
+
+Stage 1 reference implementation is complete for the **Sentinel Health Query Tool**. Additional governed child workflow tools are planned.
+
+## Architecture note
+
+This repository documents the control pattern, not a one-click deployment package.
 
 The goal is **not** to build an unrestricted agent.
 The goal is to prove a governance model:
 
-Agent Loop request  
-→ approved tool call  
-→ Logic Apps Standard child workflow boundary  
-→ Azure Function–based Policy Enforcement Point (PEP)  
-→ Entra ID–authenticated allow/deny decision  
-→ fixed, approved Sentinel query only  
+```text
+Agent Loop request
+→ approved tool call
+→ Logic Apps Standard child workflow boundary
+→ Azure Function-based Policy Enforcement Point (PEP)
+→ Entra ID-authenticated allow/deny decision
+→ fixed, approved Sentinel query only
 → return result or fail closed
+```
 
 ---
 
@@ -21,7 +31,7 @@ Agent Loop request
 
 Agentic SOC workflows are powerful, but models should not directly execute security actions.
 
-This pattern treats the agent as *logically untrusted* for execution decisions:
+This pattern treats the agent as **logically untrusted** for execution decisions:
 
 - The agent cannot generate KQL.
 - The agent cannot choose the Log Analytics workspace.
@@ -43,9 +53,9 @@ Performs a single, fixed Sentinel health query through the Azure Monitor Logs co
 
 Planned future governed tools:
 
-- Sentinel Change Auditing Tool  
-- Sentinel Engineering Ticket Tool  
-- Sentinel Incident Creation Tool  
+- Sentinel Change Auditing Tool
+- Sentinel Engineering Ticket Tool
+- Sentinel Incident Creation Tool
 - Notification or Email Tool
 
 All future tools follow the same enforcement model.
@@ -69,44 +79,46 @@ No API keys.
 No client secrets.  
 No shared secrets.  
 No Log Analytics shared keys.  
-No public inbound exposure for secured workflow paths.
+No public inbound exposure for protected workflow paths in the private deployment model.
 
 ---
 
 ## Repository contents
 
-- /docs  
-  - architecture.md  
-  - deployment-runbook.md  
-  - identity-rbac-model.md  
-  - networking-private-design.md  
-  - security-design.md  
-  - threat-model.md  
-  - sanitization-checklist.md  
-  - linkedin-post.md
+```text
+/docs
+  architecture.md
+  deployment-runbook.md
+  identity-rbac-model.md
+  networking-private-design.md
+  security-design.md
+  threat-model.md
+  sanitization-checklist.md
+  linkedin-post.md
 
-- /diagrams  
-  - architecture.mmd  
-  - sequence-flow.mmd  
-  - fail-closed-flow.mmd
+/diagrams
+  architecture.mmd
+  sequence-flow.mmd
+  fail-closed-flow.mmd
 
-- /src/pep_function  
-  - function_app.py  
-  - local.settings.example.json  
-  - requirements.txt
+/src/pep_function
+  function_app.py
+  local.settings.example.json
+  requirements.txt
 
-- /workflows  
-  - parent-agent-loop-sanitized.json  
-  - child-sentinel-health-query-tool-sanitized.json
+/workflows
+  parent-agent-loop-sanitized.json
+  child-sentinel-health-query-tool-sanitized.json
 
-- /samples  
-  - pep-request-allow.json  
-  - pep-response-allow.json  
-  - pep-request-deny-forbidden-kql.json  
-  - audit-validation-query.kql
+/samples
+  pep-request-allow.json
+  pep-response-allow.json
+  pep-request-deny-forbidden-kql.json
+  audit-validation-query.kql
 
-- /tools  
-  - sanitize_check.py
+/tools
+  sanitize_check.py
+```
 
 ---
 
@@ -117,40 +129,51 @@ This repository is intentionally published as a **sanitized reference implementa
 **Do not commit real, environment-specific, or identifying values.**
 All examples must remain generic and non-attributable.
 
-The following **must never appear** in this repository:
+The following **must never appear** in this repository.
 
 ### Identifiers
 
-- Subscription IDs  
-- Tenant IDs  
-- Client IDs or Application IDs  
-- Object IDs  
+- Subscription IDs
+- Tenant IDs
+- Client IDs or Application IDs
+- Object IDs
 - Managed identity names
 
 ### Environment details
 
-- Resource group names  
-- Workspace names  
-- Private endpoint names  
-- Private DNS zone names  
-- Private FQDNs  
+- Resource group names
+- Workspace names
+- Private endpoint names
+- Private DNS zone names
+- Private FQDNs
 - Callback URLs or webhook URLs
 
 ### Security-sensitive data
 
-- Keys, tokens, secrets, or certificates  
-- Log Analytics shared keys  
-- Function keys  
+- Keys, tokens, secrets, or certificates
+- Log Analytics shared keys
+- Function keys
 - Authorization headers
 
 ### Operational or customer data
 
-- Sentinel incident data  
-- Alert payloads from real environments  
-- Run history screenshots containing URLs or identifiers  
+- Sentinel incident data
+- Alert payloads from real environments
+- Run history screenshots containing URLs or identifiers
 - Customer names or internal project names
 
-Use placeholders only (for example: `<SUBSCRIPTION_ID>`, `<WORKSPACE_NAME>`), and replace them **only within a private environment**.
+Use placeholders only, for example:
+
+```text
+<SUBSCRIPTION_ID>
+<TENANT_ID>
+<WORKSPACE_NAME>
+<RESOURCE_GROUP_NAME>
+<PEP_FUNCTION_PRIVATE_FQDN>
+<MANAGED_IDENTITY_NAME>
+```
+
+Replace placeholders only within a private environment.
 
 ---
 
@@ -158,20 +181,24 @@ Use placeholders only (for example: `<SUBSCRIPTION_ID>`, `<WORKSPACE_NAME>`), an
 
 **Expected parent path:**
 
-HTTP request received  
-→ Agent Loop runs  
-→ Sentinel Health Query Tool selected  
+```text
+HTTP request received
+→ Agent Loop runs
+→ Sentinel Health Query Tool selected
 → Child workflow call succeeds
+```
 
 **Expected child path:**
 
-HTTP request received  
-→ Correlation ID initialized  
-→ PEP called  
-→ PEP response parsed  
-→ Allow decision validated  
-→ Fixed Azure Monitor Logs query executes  
+```text
+HTTP request received
+→ Correlation ID initialized
+→ PEP called
+→ PEP response parsed
+→ Allow decision validated
+→ Fixed Azure Monitor Logs query executes
 → Success response returned
+```
 
 **Expected audit proof:**
 
@@ -187,8 +214,8 @@ LAQueryLogs
 
 Expected values:
 
-- RequestClientApp = AzureMonitorLogsConnector  
-- ResponseCode = 200
+- `RequestClientApp = AzureMonitorLogsConnector`
+- `ResponseCode = 200`
 
 ---
 
@@ -205,4 +232,8 @@ The interesting part is proving that the agent **cannot** query Sentinel unless 
 
 Fail closed by design.
 
-License: Apache License 2.0
+---
+
+## License
+
+Apache License 2.0
