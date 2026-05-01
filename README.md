@@ -435,19 +435,6 @@ FUNCTION-PEP_PLACEHOLDER
 SECURITY_AGENT_NAME_PLACEHOLDER
 ```
 
----
-
-## Suggested commit messages
-
-```text
-docs: add architecture diagrams and network hardening note
-docs: add validation evidence for PEP allow and deny paths
-security: enforce strict PEP request contract
-docs: sanitize architecture and deployment guidance
-```
-
----
-
 ## License
 
 Apache License 2.0. See [LICENSE](LICENSE).
