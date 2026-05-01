@@ -113,9 +113,6 @@ For stricter enterprise deployments:
 - [Use Azure Private Link to connect networks to Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/private-link-security)
 - [Configure private link for Azure Monitor](https://learn.microsoft.com/en-us/azure/azure-monitor/fundamentals/private-link-configure)
 
-## README Summary
-
-Use this short note in the main `README.md` under the architecture diagram:
 
 ```markdown
 > **Network hardening note:** This demo uses a private endpoint for the Azure Function PEP and outbound VNET integration from Logic App Standard. The Log Analytics Workspace does not use AMPLS in the demo environment. For a stricter private-network deployment, see [Network Hardening and AMPLS Design Note](docs/network-hardening.md).
