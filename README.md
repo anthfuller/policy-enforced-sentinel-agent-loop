@@ -389,8 +389,7 @@ workflows/
 samples/
   pep-request-allow.json
   pep-response-allow.json
-  pep-request-deny-unexpected-field.json
-  pep-response-deny-unexpected-field.json
+  pep-request-deny-forbidden-kql.json
   audit-validation-query.kql
 
 tools/
