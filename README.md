@@ -367,7 +367,6 @@ docs/
   security-design.md
   threat-model.md
   sanitization-checklist.md
-  linkedin-post.md
   images/
     policy-enforced-sentinel-agent-loop-demo.png
     policy-enforced-sentinel-agent-loop-ampls-private-link.png
